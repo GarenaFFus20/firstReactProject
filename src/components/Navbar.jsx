@@ -1,16 +1,27 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineStarRate } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { GiGalaxy } from "react-icons/gi";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 const Navbar = () => {
   // useState babohar korsi akta chalu korla arakta bondo hoba
   const [isOpen, setIsOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState();
+  const location = useLocation();
+
+  useEffect(() => {
+    setActiveLink(location.pathname || '/');
+  },[location.pathname]);
+
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  }
+
+  const handleLinkClick = (path) => {
+    setActiveLink(path);
   }
 
 
@@ -36,11 +47,55 @@ const Navbar = () => {
         </div>
 
         <ul className="hidden md:flex space-x-4 md:space-x-6">
-          <li> <Link to={'/'} className="hover:text-gray-800" >Home</Link> </li>
-          <li> <Link to={'products'} className="hover:text-gray-800">Products</Link> </li>
-          <li> <Link to={'blogs'} className="hover:text-gray-800">Blogs</Link> </li>
-          <li> <Link to={'contact'} className="hover:text-gray-800">Contact</Link> </li>
-          <li> <Link to={'about'} className="hover:text-gray-800">About</Link> </li>
+          <li> 
+            <Link 
+              to={'/'} 
+              onClick={() => handleLinkClick('/')} 
+              className={`${activeLink === '/' ? 'text-gray-800' : 'hover:text-gray-800'}`} 
+            >
+              Home
+            </Link> 
+          </li>
+
+          <li>
+             <Link  
+                to={'/products'} 
+                onClick={() => handleLinkClick('/products')}  
+                className={`${activeLink === '/products' ? 'text-gray-800' : 'hover:text-gray-800'}`}
+             >
+                Products
+              </Link> 
+            </li>
+
+          <li> 
+            <Link 
+              to={'/blogs'} 
+              onClick={() => handleLinkClick('/blogs')} 
+              className={`${activeLink === '/blogs' ? 'text-gray-800' : 'hover:text-gray-800'}`}
+            >
+              Blogs
+            </Link> 
+          </li>
+
+          <li> 
+            <Link 
+              to={'/contact'} 
+              onClick={() => handleLinkClick('/contact')} 
+              className={`${activeLink === '/contact' ? 'text-gray-800' : 'hover:text-gray-800'}`}
+            >
+              Contact
+            </Link> 
+          </li>
+
+          <li> 
+            <Link 
+              to={'/about'} 
+              onClick={() => handleLinkClick('/about')} 
+              className={`${activeLink === '/about' ? 'text-gray-800' : 'hover:text-gray-800'}`}
+            >
+              About
+            </Link> 
+          </li>
         </ul>
 
         <button className="hidden md:block text-white bg-gray-600  hover:bg-gray-700 px-4 py-1 cursor-pointer rounded">Loing</button>
